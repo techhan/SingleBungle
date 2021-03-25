@@ -428,8 +428,9 @@
 							</a>
 							
 							
-							<a data-toggle="modal" <c:if test="${loginMember.memberNo != market.memNo }">href='#sendMessage'</c:if> class="btn maincolor btn-lg btnW active" role="button" aria-pressed="true"
+							<a data-toggle="modal" <c:if test="${loginMember.memberNo != market.memNo && loginMember.memberGrade !='S' }">href='#sendMessage'</c:if> class="btn maincolor btn-lg btnW active" role="button" aria-pressed="true"
 							<c:if test="${loginMember.memberNo == market.memNo }">style="cursor: no-drop;" title="본인 게시글에는 쪽지를 보낼 수 없습니다!" </c:if>
+							<c:if test="${loginMember.memberGrade == 'S'}"> style="cursor: no-drop;" title="2등급은 쪽지를 보낼 수 없습니다!"</c:if>
 							>
 							
 								<img src="${contextPath}/resources/images/message.png" width="20" height="20" id="message"> 

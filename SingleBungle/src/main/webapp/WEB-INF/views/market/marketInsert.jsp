@@ -407,15 +407,6 @@
 						</li>
 						
 						
-						
-						
-						
-						
-						
-						
-						
-						
-						
 						<!-- 상태 -->
 						<li class="formRow row">
 							<div class="formList">
@@ -550,7 +541,7 @@
     $("#title").on("input", function(){
     	var cnt = $(this).val();
     	$("#currCnt").text(cnt.length);
-    	
+    	$("#currCnt").css("color", "black");
     	if(cnt.length == 40){
     		$("#currCnt").css("color", "red");
     	}
@@ -716,6 +707,8 @@
 						});
 					});
 				});
+		var searchFlag = false;
+		
 
 		$("#searchLocation")
 				.on(
@@ -738,7 +731,8 @@
 											'query' : $("#locationInput").val()
 										},
 										success : function(r) {
-
+											console.log("lo" + searchFlag);
+											if(!searchFlag) {
 											if (r.documents.length != 0) { // 값이 있으면
 
 												$("#searchAddr").empty();
@@ -752,6 +746,10 @@
 													$("#searchAddr").append(li);
 												}
 											}
+											}else {
+												alert("재검색을 원할 시 재검색 버튼을 눌러주세요.");
+											}
+											
 										},
 										error : function(request, status, error) {
 											console.log("code:"
@@ -764,6 +762,8 @@
 									})
 						});
 
+		
+	
 		function addrBtnClick(temp) {
 
 			console.log(temp);
@@ -780,28 +780,31 @@
 						success : function(r) {
 							if (r != null) {
 								console.log("테스트 3 : " + r);
-								$("#locationInput").val(r).attr("readonly",
-										"readonly").css("backgroundColor",
-										"#f1f1f0bd").css("cursor",
-										"not-allowed");
+								$("#locationInput").val(r).attr("readonly", "readonly").css("backgroundColor","#f1f1f0bd").css("cursor","not-allowed");
 								locationCheck = true;
+								searchFlag = true;
 							} else {
 								$("#locationInput").remove(
 										"readonly, backgroundColor");
 							}
 						},
 						error : function() {
-							console.log("ajax 통신 오류 발생!");
+							console.log("ajax 통신 오류 발생!22");
 						}
 					});
 		};
+	
 
 		function research() {
 			$("#locationInput").removeAttr('readonly').css('backgroundColor', '').css('cursor', 'auto').val('');
-			if (loginMember.memberCertifiedFl != null) {
+			if (${loginMember.memberCertifiedFl != null}) {
 				locationCheck = true;
+				searchFlag = false;
+				console.log("re" + searchFlag);
 			} else {
 				locationCheck = false;
+				searchFlag = false;
+				console.log("re2" + searchFlag);
 			}
 		}
 	</script>

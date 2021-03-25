@@ -68,7 +68,8 @@ public class MarketReplyController {
 		return service.updateReply(reply);
 	}
 	
-	// 댓글 삭제 Controller@ResponseBody
+	// 댓글 삭제 Controller
+	@ResponseBody
 	@RequestMapping("deleteReply/{replyNo}")
 	public int deleteReply(@PathVariable("replyNo") int replyNo) {
 		return service.deleteReply(replyNo);

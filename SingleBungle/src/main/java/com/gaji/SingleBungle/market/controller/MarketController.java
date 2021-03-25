@@ -519,7 +519,7 @@ public class MarketController {
 	
 	// 노 인증 위치 검색 Controller
 	@ResponseBody
-	@RequestMapping(value="*/locateNoCertification", produces ="application/text; charset=utf8")
+	@RequestMapping(value="locateNoCertification", produces ="application/text; charset=utf8")
 	public String locateNoCertification(@ModelAttribute(name="loginMember", binding=false) Member loginMember,
 		  								@RequestParam("locate") String locate) {
 		String certificationCheck = loginMember.getMemberCertifiedFl();
@@ -566,6 +566,120 @@ public class MarketController {
 	
 	
 
+	//------------------------------------------------------------------------------------------------------
+	
+	// 동네인증 Controller
+	@ResponseBody
+	@RequestMapping(value="update/updateLocateCertification") 
+	public String updateLocateCertification(@ModelAttribute(name="loginMember", binding=false) Member loginMember,
+										@ModelAttribute(name="market", binding=false) Member market,
+								  	@RequestParam("locate") String locate) {
+		
+		
+		String certificationCheck = loginMember.getMemberCertifiedFl();
+		System.out.println(market);
+		//System.out.println(certificationCheck);
+		
+		String lResult = null;
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("locate", locate);
+		map.put("memberNo", loginMember.getMemberNo());
+		
+		if(certificationCheck == null){
+			int result = service.locateInsert(map);
+			
+			if(result > 0) {
+				lResult = locate;
+				loginMember.setAddress(locate);
+				loginMember.setMemberCertifiedFl("Y");
+				return lResult;
+			}
+		} else if(certificationCheck.charAt(0) == 'Y' || certificationCheck.charAt(0) == 'N') { // 인증 된 회원일 때
+			System.out.println("여기 들어와?");
+			String currAddr = loginMember.getAddress();
+			
+			if(currAddr.equals(locate)) { // 기존 인증 주소와 새로 받은 인증 주소가 같을 때
+				loginMember.setMemberCertifiedFl("Y");
+				lResult = locate;
+				return lResult;
+			} else { // 기존 인증 주소와 새로 받은 인증 주소가 다를 때
+				
+				int result = service.locateUpdate(map);
+				
+				if(result > 0) {
+					lResult = locate;
+					loginMember.setAddress(locate);
+					loginMember.setMemberCertifiedFl("Y");
+				}
+				
+				return lResult;
+			}
+		} 
+		return lResult;
+	}
+	
+	
+	// 노 인증 위치 검색 Controller
+	@ResponseBody
+	@RequestMapping(value="update/updateLocateNoCertification", produces ="application/text; charset=utf8")
+	public String updateLocateNoCertification(@ModelAttribute(name="loginMember", binding=false) Member loginMember,
+		  								@RequestParam("locate") String locate) {
+		String certificationCheck = loginMember.getMemberCertifiedFl();
+		String lResult = null;
+		System.out.println("테스트 " + locate);
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		map.put("locate", locate);
+		map.put("memberNo", loginMember.getMemberNo());
+
+		if (certificationCheck == null) {
+			int result = service.NoCertificationInsert(map);
+
+			if (result > 0) {
+				lResult = locate;
+				loginMember.setAddress(locate);
+				loginMember.setMemberCertifiedFl("N");
+				System.out.println("테스트 2" + lResult);
+				return lResult;
+			}
+		} else {
+			String currAddr = loginMember.getAddress();
+
+			if (currAddr.equals(locate)) { // 기존 인증 주소와 새로 받은 인증 주소가 같을 때
+
+				lResult = locate;
+				return lResult;
+			} else {
+				
+				int result = service.NoCertificationUpdate(map);
+
+				if (result > 0) {
+					lResult = locate;
+					loginMember.setAddress(locate);
+					System.out.println("테스트3 " + lResult);
+					return lResult;
+				}
+
+			}
+		}
+
+		return lResult;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	// ------------------------------------------------------------------------------------------------------

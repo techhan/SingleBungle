@@ -15,6 +15,7 @@
 		<result property="memNo" column="MEM_NO"/>
 		<result property="parentReplyNo" column="PARENT_REPLY_NO"/>
 		<result property="nickname" column="NICKNAME"/>
+		<result property="memberGrade" column="MEM_GRADE"/>
 		
 	</resultMap>
 	

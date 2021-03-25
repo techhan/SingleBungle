@@ -748,7 +748,7 @@
        	locate = loc;
       	
 				$.ajax({
-					url : "locateCertification",
+					url : "updateLocateCertification",
 					type : "post",
 					data : {
 						"locate" : locate
@@ -819,7 +819,7 @@
 		$("#searchAddr").empty();
 		
 		$.ajax({
-			url : "locateNoCertification",
+			url : "updateLocateNoCertification",
 			type : "get",
 			data : {"locate" : temp},
 			success : function(r){
@@ -838,7 +838,7 @@
 	
 	function research() {
 		$("#locationInput").removeAttr('readonly').css('backgroundColor', '').css('cursor', 'auto').val('');
-		if (loginMember.memberCertifiedFl != null) {
+		if (${loginMember.memberCertifiedFl != null}) {
 			locationCheck = true;
 		} else {
 			locationCheck = false;
